@@ -1,10 +1,9 @@
-// import LoadSimulationChart from './LoadSimulationChart';
+import LoadSimulator from './LoadSimulator';
 
 function App() {
   return (
-    <div>
-      <h1>Load Simulation Analysis</h1>
-      {/* <LoadSimulationChart /> */}
+    <div className="container mx-auto">
+      <LoadSimulator />
     </div>
   );
 }
