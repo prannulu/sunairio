@@ -60,7 +60,7 @@ const LoadSimulator = () => {
   }
 
   return (
-    <div className="p-4">
+    <div>
       <h2 className="text-header">Load Visualization Dashboard</h2>
       {processedData.length > 0 ? (
         <div className="main-container">

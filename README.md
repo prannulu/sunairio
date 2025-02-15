@@ -18,8 +18,5 @@ The graph should be displayed in US/Central time, as should the daily/monthly pe
 
 The data was provided in a CSV file, which is stored in the `data` folder.
 
-## My approach
-
-
 
 

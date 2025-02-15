@@ -2,7 +2,7 @@ import LoadSimulator from './LoadSimulator';
 
 function App() {
   return (
-    <div className="container mx-auto">
+    <div>
       <LoadSimulator />
     </div>
   );

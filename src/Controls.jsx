@@ -23,7 +23,6 @@ const Controls = ({ settings, onSettingsChange }) => {
           id="timeframe-select"
           value={tempSettings.timeframe}
           onChange={(e) => handleChange('timeframe', e.target.value)}
-          className="border p-2 rounded"
         >
           <option value="hourly">Hourly</option>
           <option value="daily">Daily</option>
@@ -36,7 +35,6 @@ const Controls = ({ settings, onSettingsChange }) => {
           id="aggregationType-select"
           value={tempSettings.aggregationType}
           onChange={(e) => handleChange('aggregationType', e.target.value)}
-          className="border p-2 rounded"
           disabled={tempSettings.timeframe === 'hourly'}
         >
           <option value="min">Min</option>
@@ -44,10 +42,7 @@ const Controls = ({ settings, onSettingsChange }) => {
           <option value="mean">Mean</option>
         </select>
       </div>
-      <button 
-        onClick={applySettings}
-        className="mt-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
+      <button onClick={applySettings}>
         Apply Settings
       </button>
     </div>
