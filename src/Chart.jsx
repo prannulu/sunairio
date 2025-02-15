@@ -35,7 +35,7 @@ const Chart = ({ data, settings, percentiles }) => {
             />
             <Tooltip 
               labelFormatter={(label) => `Time: ${label}`}
-              formatter={(value) => [`Load: ${Math.round(value)}`]}
+              formatter={(value, name) => [`${name}: ${Math.round(value)}`]}
             />
            {percentiles.map((p) => (
             <Line 
@@ -44,7 +44,7 @@ const Chart = ({ data, settings, percentiles }) => {
               dataKey={`p${p.value}`}
               stroke={p.color}
               dot={false}
-              name={`${p.value}th Percentile`}
+              name={`P${p.value}`}
             />
             ))}
           </LineChart> 
