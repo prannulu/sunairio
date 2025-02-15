@@ -44,8 +44,8 @@ const LoadSimulator = () => {
     setIsProcessing(true);
     setTimeout(() => {
       const processed = processData(rawData, settings, percentiles);
-      setIsProcessing(false);
       setProcessedData(processed);
+      setIsProcessing(false);
     }, 10);
     
   }, [rawData, settings, percentiles]);
