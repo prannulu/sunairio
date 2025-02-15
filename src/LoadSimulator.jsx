@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Chart from './Chart';
+import Controls from './Controls';
 
+import { processData } from './utils'
 
 const LoadSimulator = () => {
-  const [data, setData] = useState([]);
+  const [rawData, setRawData] = useState([]);
+  const [processedData, setProcessedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [settings, setSettings] = useState({
+    timeframe: 'hourly',
+    aggregationType: 'mean',
+    percentile: 50
+  });
 
   useEffect(() => {
     const loadData = async () => {
@@ -19,7 +27,7 @@ const LoadSimulator = () => {
           dynamicTyping: true,
           skipEmptyLines: true
         });
-        setData(result.data);
+        setRawData(result.data);
         setIsLoading(false);
       } catch (error) {
         console.error('Error:', error);
@@ -30,6 +38,12 @@ const LoadSimulator = () => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    if (!rawData.length) return;
+    const processed = processData(rawData, settings);
+    setProcessedData(processed);
+  }, [rawData, settings]);
+
   if (isLoading) {
     return <div className="p-4">Loading...</div>;
   }
@@ -37,9 +51,13 @@ const LoadSimulator = () => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Load Simulation</h2>
-      {data.length > 0 && (
+      {processedData.length > 0 && (
         <div className="border border-gray-300 p-4">
-          <Chart data={data} />
+          <Controls 
+            settings={settings} 
+            onSettingsChange={setSettings} 
+          />
+          <Chart data={processedData} settings={settings}/>
         </div>
       )}
     </div>
