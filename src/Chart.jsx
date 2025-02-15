@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useState, useEffect } from 'react';
 const Chart = ({ data, settings, percentiles }) => {
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth * 0.9,
+    width: window.innerWidth * 0.9 - 64,
     height: Math.min(600, window.innerHeight * 0.7)
   });
 
