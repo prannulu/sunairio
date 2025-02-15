@@ -18,5 +18,20 @@ The graph should be displayed in US/Central time, as should the daily/monthly pe
 
 The data was provided in a CSV file, which is stored in the `data` folder.
 
+## Features
+- Visualize load data with interactive line charts
+- Choose between hourly, daily, or monthly views
+- Calculate and display any percentile between 0-99
+- Aggregate data using Min, Max, or Mean methods
+- Display multiple percentiles simultaneously
+- All timestamps shown in UTC
 
+## Technologies Used
+- React
+- Recharts
+
+## Installation
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Run `npm start` to start the development server
 
