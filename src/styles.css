@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  margin: 2rem 4rem; 
+  background-color: #f3f4f6;
+}
+
+button,
+input, select {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.text-header {
+  font-size: 3rem;
+  color: #33235f;
+  text-align: center;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  justify-content: space-between;
+}
+.input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  justify-content: space-between;
+}
+
+.input-container > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.white-bg-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.timeframe-container, .aggregation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-container > .percentile-container {
+  flex-direction: row;
+  gap: 50px;
+}
+
+.percentile-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.percentile-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+}
+
+.percentile-tag {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  background-color: #abb8c3;
+  padding: 4px 8px;
+  border-radius: 4px;
+  gap: 4px;
+  height: 20px;
+}
+
+.color-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.delete-button {
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.delete-button:hover {
+  color: #ef4444;
+}
+
+button {
+  background-color: #1e73be;
+  border: 1px solid #1e73be;
+  padding: 8px 12.8px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: grey;
+  border: 1px solid grey; 
+  cursor: not-allowed;
+}

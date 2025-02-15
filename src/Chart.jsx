@@ -1,17 +1,33 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import _ from 'lodash';
+import { useState, useEffect } from 'react';
+const Chart = ({ data, settings, percentiles }) => {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth * 0.9,
+    height: Math.min(600, window.innerHeight * 0.7)
+  });
 
-const Chart = ({ data, settings }) => {
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth * 0.9,
+        height: Math.min(600, window.innerHeight * 0.7)
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <div className="border border-gray-300 p-4">
-      <LineChart width={1800} height={600} data={data}>
+    <div className="white-bg-container">
+      <LineChart width={dimensions.width} height={Math.min(600, window.innerHeight * 0.7)} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="timestamp" 
-              angle={-60}
               height={60}
               tick={{ fontSize: 12 }}
               tickMargin={30}
-              interval={settings.timeframe === 'hourly' ? 23 : 0}  // Force show all ticks
+              interval={settings.timeframe === 'hourly' ? 23*7 : settings.timeframe === 'daily' ? 7 : 0}
             />
             <YAxis 
               domain={['auto', 'auto']}  // [min, max] - 'auto' calculates based on data
@@ -21,14 +37,17 @@ const Chart = ({ data, settings }) => {
               labelFormatter={(label) => `Time: ${label}`}
               formatter={(value) => [`Load: ${Math.round(value)}`]}
             />
+           {percentiles.map((p) => (
             <Line 
+              key={`p${p.value}`}
               type="monotone" 
-              dataKey="value"
-              stroke="#8884d8" 
+              dataKey={`p${p.value}`}
+              stroke={p.color}
               dot={false}
+              name={`${p.value}th Percentile`}
             />
+            ))}
           </LineChart> 
-          <div>{JSON.stringify(settings)}</div>
     </div>
   );
 };

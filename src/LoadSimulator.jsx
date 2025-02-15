@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Chart from './Chart';
 import Controls from './Controls';
-
+import Percentiles from './Percentiles';
 import { processData } from './utils'
+import './styles.css';
 
 const LoadSimulator = () => {
   const [rawData, setRawData] = useState([]);
@@ -12,8 +13,8 @@ const LoadSimulator = () => {
   const [settings, setSettings] = useState({
     timeframe: 'hourly',
     aggregationType: 'mean',
-    percentile: 50
   });
+  const [percentiles, setPercentiles] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -40,9 +41,9 @@ const LoadSimulator = () => {
 
   useEffect(() => {
     if (!rawData.length) return;
-    const processed = processData(rawData, settings);
+    const processed = processData(rawData, settings, percentiles);
     setProcessedData(processed);
-  }, [rawData, settings]);
+  }, [rawData, settings, percentiles]);
 
   if (isLoading) {
     return <div className="p-4">Loading...</div>;
@@ -50,14 +51,20 @@ const LoadSimulator = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Load Simulation</h2>
+      <h2 className="text-header">Load Simulation (by Pavi R. for Sunairio)</h2>
       {processedData.length > 0 && (
-        <div className="border border-gray-300 p-4">
-          <Controls 
-            settings={settings} 
-            onSettingsChange={setSettings} 
-          />
-          <Chart data={processedData} settings={settings}/>
+        <div className="main-container">
+          <div className="input-container">
+            <Percentiles 
+              percentiles={percentiles}
+              onPercentilesChange={setPercentiles}
+            />
+            <Controls 
+              settings={settings} 
+              onSettingsChange={setSettings} 
+            />
+          </div>
+          <Chart data={processedData} settings={settings} percentiles={percentiles} />
         </div>
       )}
     </div>

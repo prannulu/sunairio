@@ -16,9 +16,9 @@ const Controls = ({ settings, onSettingsChange }) => {
   };
 
   return (
-    <div className="mb-4 flex space-x-4">
-      <div className="flex flex-col">
-        <label htmlFor="timeframe-select" className="mb-1">Time Period</label>
+    <div className="white-bg-container">
+      <div className="timeframe-container">
+        <label htmlFor="timeframe-select">Time Period</label>
         <select 
           id="timeframe-select"
           value={tempSettings.timeframe}
@@ -30,8 +30,8 @@ const Controls = ({ settings, onSettingsChange }) => {
           <option value="monthly">Monthly</option>
         </select>
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="aggregationType-select" className="mb-1">Aggregation Type</label>
+      <div className="aggregation-container">
+        <label htmlFor="aggregationType-select">Aggregation Type</label>
         <select 
           id="aggregationType-select"
           value={tempSettings.aggregationType}
@@ -44,26 +44,12 @@ const Controls = ({ settings, onSettingsChange }) => {
           <option value="mean">Mean</option>
         </select>
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="percentile-select" className="mb-1">Percentile (between 0 and 999)</label>
-        <input 
-          type="number"
-          id="percentile-select"
-          value={tempSettings.percentile}
-          onChange={(e) => handleChange('percentile', Math.min(999, Math.max(0, parseInt(e.target.value) || 0)))}
-          min="0"
-          max="999"
-          className="border p-2 rounded w-24"
-          placeholder="0-999"
-        />
-      </div>
       <button 
         onClick={applySettings}
         className="mt-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         Apply Settings
       </button>
-      {/* ... more controls coming soon ... */}
     </div>
   );
 };

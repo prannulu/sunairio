@@ -1,19 +1,28 @@
 import _ from 'lodash';
 
-export const processData = (rawData, settings) => {
-  const { timeframe, aggregationType, percentile } = settings;
+export const processData = (rawData, settings, percentiles) => {
+  const { timeframe, aggregationType } = settings;
+
+  // Helper to format dates consistently
+  const formatDate = (date) => {
+    const d = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+    
+    const formats = {
+      'monthly': { month: 'short', year: 'numeric' },
+      'daily': { month: 'short', day: 'numeric' },
+      'hourly': { month: 'short', day: 'numeric', hour: 'numeric', hour12: true }
+    };
+
+    return d.toLocaleString('en-US', { 
+      timeZone: 'America/Chicago',
+      ...formats[timeframe]
+    });
+  };
 
   // Group data based on timeframe
   const groupedData = _.groupBy(rawData, row => {
     const date = new Date(row.sim_datetime);
-    if (timeframe === 'monthly') {
-      return `${date.getFullYear()}-${date.getMonth() + 1}`;
-    } else if (timeframe === 'daily') {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    } else {
-      // For hourly, include hours in grouping key
-      return date.toISOString(); // This will keep each hour separate
-    }
+    return formatDate(date);
   });
 
   // Process each group
@@ -37,41 +46,20 @@ export const processData = (rawData, settings) => {
         }
       }
     });
-
-    // Calculate percentile across all paths
-    const sortedValues = _.sortBy(pathValues);
-    const index = Math.floor(sortedValues.length * (percentile / 100));
-    
-    // Format timestamp for display
-    const date = new Date(timestamp);
-    let displayDate;
-    const centralDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-    
-    if (timeframe === 'monthly') {
-      displayDate = centralDate.toLocaleString('en-US', { 
-        month: 'short', 
-        year: 'numeric',
-        timeZone: 'America/Chicago'
-      });
-    } else if (timeframe === 'daily') {
-      displayDate = centralDate.toLocaleString('en-US', { 
-        month: 'short', 
-        day: 'numeric',
-        timeZone: 'America/Chicago'
-      });
-    } else {
-      displayDate = centralDate.toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        hour12: true,
-        timeZone: 'America/Chicago'
-      });
-    }
+   
 
     return {
-      timestamp: displayDate,
-      value: sortedValues[index]
+      timestamp: timestamp,
+      ...Object.fromEntries(percentiles.map(p => [
+        `p${p.value}`,
+        getPercentileValue(pathValues, p.value)
+      ]))
     };
   });
+};
+
+export const getPercentileValue = (data, percentile) => {
+  const sortedValues = _.sortBy(data);
+  const index = Math.floor(sortedValues.length * (percentile / 100));
+  return sortedValues[index];
 };
