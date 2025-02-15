@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/sunairio/static/css/main.c43fb83b.css",
-    "main.js": "/sunairio/static/js/main.6f1f1a40.js",
+    "main.css": "/sunairio/static/css/main.0ac83587.css",
+    "main.js": "/sunairio/static/js/main.f50384c4.js",
     "index.html": "/sunairio/index.html",
-    "main.c43fb83b.css.map": "/sunairio/static/css/main.c43fb83b.css.map",
-    "main.6f1f1a40.js.map": "/sunairio/static/js/main.6f1f1a40.js.map"
+    "main.0ac83587.css.map": "/sunairio/static/css/main.0ac83587.css.map",
+    "main.f50384c4.js.map": "/sunairio/static/js/main.f50384c4.js.map"
   },
   "entrypoints": [
-    "static/css/main.c43fb83b.css",
-    "static/js/main.6f1f1a40.js"
+    "static/css/main.0ac83587.css",
+    "static/js/main.f50384c4.js"
   ]
 }
