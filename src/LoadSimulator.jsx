@@ -44,9 +44,9 @@ const LoadSimulator = () => {
     setIsProcessing(true);
     setTimeout(() => {
       const processed = processData(rawData, settings, percentiles);
-      setProcessedData(processed);
       setIsProcessing(false);
-    }, 0);
+      setProcessedData(processed);
+    }, 10);
     
   }, [rawData, settings, percentiles]);
 
@@ -62,7 +62,7 @@ const LoadSimulator = () => {
   return (
     <div>
       <h2 className="text-header">Load Visualization Dashboard</h2>
-      {processedData.length > 0 ? (
+      {processedData.length > 0 && (
         <div className="main-container">
           <div className="input-container">
             <Percentiles 
@@ -79,7 +79,7 @@ const LoadSimulator = () => {
           </div>
           <Chart data={processedData} settings={settings} percentiles={percentiles} />
         </div>
-      ) :<div className="text-header">No data found</div>}
+      )}
       <div className='Outro'>
         All times are in UTC.
         <br />

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useState, useEffect } from 'react';
 const Chart = ({ data, settings, percentiles }) => {
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth * 0.9 - 64,
+    width: window.innerWidth * 0.9,
     height: Math.min(600, window.innerHeight * 0.7)
   });
 
@@ -20,34 +20,37 @@ const Chart = ({ data, settings, percentiles }) => {
   }, []);
   return (
     <div className="white-bg-container">
-      <LineChart width={dimensions.width} height={Math.min(600, window.innerHeight * 0.7)} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="timestamp" 
-              height={60}
-              tick={{ fontSize: 12 }}
-              tickMargin={30}
-              interval={settings.timeframe === 'hourly' ? 23*7 : settings.timeframe === 'daily' ? 7 : 0}
-            />
-            <YAxis 
-              domain={['auto', 'auto']}  // [min, max] - 'auto' calculates based on data
-              tick={{ fontSize: 12 }}
-            />
-            <Tooltip 
-              labelFormatter={(label) => `Time: ${label}`}
-              formatter={(value, name) => [`${name}: ${Math.round(value)}`]}
-            />
-           {percentiles.map((p) => (
-            <Line 
-              key={`p${p.value}`}
-              type="monotone" 
-              dataKey={`p${p.value}`}
-              stroke={p.color}
-              dot={false}
-              name={`P${p.value}`}
-            />
-            ))}
-          </LineChart> 
+      <LineChart width={dimensions.width} height={dimensions.height} data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis 
+          dataKey="timestamp" 
+          height={50}
+          tick={{ fontSize: 12 }}
+          tickMargin={15}
+          interval={settings.timeframe === 'hourly' ? 23*7 : settings.timeframe === 'daily' ? 7 : 0}
+          label={{ value: "Time", position: "bottom" , fontSize: 14, dy: 10}}
+        />
+        <YAxis 
+          domain={['auto', 'auto']}  // [min, max] - 'auto' calculates based on data
+          tick={{ fontSize: 12 }}
+          angle={-30}
+          label={{ value: "Load Average", angle: -90, position: "insideLeft", offset: 0, fontSize: 14}}
+        />
+        <Tooltip 
+          labelFormatter={(label) => `Time: ${label}`}
+          formatter={(value, name) => [`${name}: ${Math.round(value)}`]}
+        />
+        {percentiles.map((p) => (
+        <Line 
+          key={`p${p.value}`}
+          type="monotone" 
+          dataKey={`p${p.value}`}
+          stroke={p.color}
+          dot={false}
+          name={`P${p.value}`}
+        />
+        ))}
+      </LineChart> 
     </div>
   );
 };
