@@ -52,9 +52,9 @@ export const processData = (rawData, settings, percentiles) => {
         }
       }
     });
-    const percentileEntries = await Promise.all(percentiles.map(async p => [  // Added await and async
+    const percentileEntries = await Promise.all(percentiles.map(async p => [ 
       `p${p.value}`,
-      await getPercentileValue(pathValues, p.value)  // Added await
+      await getPercentileValue(pathValues, p.value)
     ]));
     return {
       timestamp: timestamp,
