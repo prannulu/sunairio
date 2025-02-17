@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Papa from 'papaparse';
 import Chart from './Chart';
 import Controls from './Controls';
@@ -41,13 +41,18 @@ const LoadSimulator = () => {
 
   useEffect(() => {
     if (!rawData.length) return;
-    setIsProcessing(true);
-    setTimeout(() => {
-      const processed = processData(rawData, settings, percentiles);
-      setProcessedData(processed);
-      setIsProcessing(false);
-    }, 10);
-    
+    const processAsync = async () => {
+      setIsProcessing(true);
+      try {
+        const processed = await processData(rawData, settings, percentiles);
+        setProcessedData(processed);
+      } catch (error) {
+        console.error('Error processing data:', error);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+    processAsync();
   }, [rawData, settings, percentiles]);
 
   if (isLoading) {
@@ -61,25 +66,25 @@ const LoadSimulator = () => {
 
   return (
     <div>
-      <h2 className="text-header">Load Visualization Dashboard</h2>
-      {processedData.length > 0 && (
+      <h2 className="text-header">Load Visualizer</h2>
         <div className="main-container">
           <div className="input-container">
+          <Controls 
+              settings={settings} 
+              onSettingsChange={setSettings} 
+            />
             <Percentiles 
               percentiles={percentiles}
               onPercentilesChange={setPercentiles}
             />
-            <Controls 
-              settings={settings} 
-              onSettingsChange={setSettings} 
-            />
           </div>
           <div className='bouncing-loader-container'>
-            {isProcessing &&  <BouncingLoader />}
+            {isProcessing && <BouncingLoader />}
           </div>
-          <Chart data={processedData} settings={settings} percentiles={percentiles} />
+          {processedData.length > 0 && (
+            <Chart data={processedData} settings={settings} percentiles={percentiles} />
+          )}
         </div>
-      )}
       <div className='Outro'>
         All times are in UTC.
         <br />

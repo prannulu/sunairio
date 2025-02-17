@@ -16,7 +16,7 @@ const Controls = ({ settings, onSettingsChange }) => {
   };
 
   return (
-    <div className="white-bg-container">
+    <div className="settings-container white-bg-container">
       <div className="timeframe-container">
         <label htmlFor="timeframe-select">Time Interval</label>
         <select 
@@ -30,7 +30,7 @@ const Controls = ({ settings, onSettingsChange }) => {
         </select>
       </div>
       <div className="aggregation-container">
-        <label htmlFor="aggregationType-select">Grouping Method (aggregation)</label>
+        <label htmlFor="aggregationType-select">Group By</label>
         <select 
           id="aggregationType-select"
           value={tempSettings.aggregationType}
@@ -43,7 +43,7 @@ const Controls = ({ settings, onSettingsChange }) => {
         </select>
       </div>
       <button onClick={applySettings}>
-        Apply Settings
+        Apply
       </button>
     </div>
   );

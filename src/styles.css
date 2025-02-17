@@ -35,8 +35,8 @@ input, select {
 .input-container {
   display: flex;
   flex-direction: row;
-  gap: 60px;
-  justify-content: space-between;
+  gap: 30px;
+  justify-content: flex-start;
 }
 
 .input-container > div {
@@ -63,11 +63,12 @@ input, select {
   gap: 50px;
 }
 
-.percentile-input-container {
+.settings-container, .percentile-input-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  width: 200px;
 }
 
 .percentile-list {
@@ -177,4 +178,10 @@ button:disabled {
   margin-top: 20px;
   font-size: 1rem;
   color: #6b7280;
+}
+
+.error-message {
+  color: grey;
+  font-size: 0.6rem;
+  font-weight: 400;
 }

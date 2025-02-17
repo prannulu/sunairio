@@ -6,7 +6,6 @@ const Chart = ({ data, settings, percentiles }) => {
     width: window.innerWidth * 0.9,
     height: Math.min(600, window.innerHeight * 0.7)
   });
-
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
@@ -14,10 +13,10 @@ const Chart = ({ data, settings, percentiles }) => {
         height: Math.min(600, window.innerHeight * 0.7)
       });
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   return (
     <div className="white-bg-container">
       <LineChart width={dimensions.width} height={dimensions.height} data={data}>
@@ -31,14 +30,16 @@ const Chart = ({ data, settings, percentiles }) => {
           label={{ value: "Time", position: "bottom" , fontSize: 14, dy: 10}}
         />
         <YAxis 
-          domain={['auto', 'auto']}  // [min, max] - 'auto' calculates based on data
+          domain={['auto', 'auto']} 
           tick={{ fontSize: 12 }}
           angle={-30}
+          tickFormatter={(value) => value.toLocaleString()}
           label={{ value: "Load Average", angle: -90, position: "insideLeft", offset: 0, fontSize: 14}}
         />
         <Tooltip 
           labelFormatter={(label) => `Time: ${label}`}
           formatter={(value, name) => [`${name}: ${Math.round(value)}`]}
+          itemSorter={(item) => -item.value}
         />
         {percentiles.map((p) => (
         <Line 

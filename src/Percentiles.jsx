@@ -3,12 +3,12 @@ import './styles.css';
 const Percentiles = ({ percentiles, onPercentilesChange }) => {
 
   const [inputValue, setInputValue] = useState('');
-  const colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
+  const colors = ['red', 'blue', 'green',  'orange','turquoise', 'magenta', 'pink',  'lime', 'brown', 'gray'];
 
   return (
     <div className="percentile-container">
       <div className="percentile-input-container white-bg-container ">
-        <label htmlFor="percentile-input">Enter percentile value to display on graph</label>
+        <label htmlFor="percentile-input">Percentile value to display</label>
         <input 
           type="number"
           value={inputValue}
@@ -32,6 +32,9 @@ const Percentiles = ({ percentiles, onPercentilesChange }) => {
         >
           Add
         </button>
+        {percentiles.length > colors.length-1 && 
+          <div className="error-message">Limit of {colors.length} percentiles reached.</div>
+        }
       </div>
       <div className="percentile-list">
         {percentiles.map((p, index) => (

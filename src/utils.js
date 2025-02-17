@@ -3,31 +3,37 @@ import _ from 'lodash';
 export const processData = (rawData, settings, percentiles) => {
   const { timeframe, aggregationType } = settings;
 
-  // Helper to format dates consistently
+  // Helper to format date
   const formatDate = (date) => {
-    const d = new Date(date.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-    
+    const d = new Date(date);
     const formats = {
       'monthly': { month: 'short', year: 'numeric' },
       'daily': { month: 'short', day: 'numeric' },
       'hourly': { month: 'short', day: 'numeric', hour: 'numeric', hour12: true }
     };
-
     return d.toLocaleString('en-US', { 
       timeZone: 'America/Chicago',
       ...formats[timeframe]
     });
   };
 
-  // Group data based on timeframe
+  const getPercentileValue = async (data, percentile) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const sortedValues = _.sortBy(data);
+        const index = Math.floor(sortedValues.length * (percentile / 100));
+        resolve(sortedValues[index]);
+      }, 0);
+    });
+  };
+
   const groupedData = _.groupBy(rawData, row => {
     const date = new Date(row.sim_datetime);
     return formatDate(date);
   });
 
   // Process each group
-  return Object.entries(groupedData).map(([timestamp, rows]) => {
-    // For hourly, rows will have only one entry
+  return Promise.all(Object.entries(groupedData).map(async ([timestamp, rows]) => {
     // Get all path values for this timestamp
     const pathValues = _.range(0, 1000).map(pathIndex => {
       if (timeframe === 'hourly') {
@@ -46,20 +52,13 @@ export const processData = (rawData, settings, percentiles) => {
         }
       }
     });
-   
-
+    const percentileEntries = await Promise.all(percentiles.map(async p => [  // Added await and async
+      `p${p.value}`,
+      await getPercentileValue(pathValues, p.value)  // Added await
+    ]));
     return {
       timestamp: timestamp,
-      ...Object.fromEntries(percentiles.map(p => [
-        `p${p.value}`,
-        getPercentileValue(pathValues, p.value)
-      ]))
+      ...Object.fromEntries(percentileEntries)
     };
-  });
-};
-
-export const getPercentileValue = (data, percentile) => {
-  const sortedValues = _.sortBy(data);
-  const index = Math.floor(sortedValues.length * (percentile / 100));
-  return sortedValues[index];
+  }));
 };
