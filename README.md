@@ -21,7 +21,7 @@ The data was provided in a CSV file, which is stored in the `data` folder.
 ## Features
 - Visualize load data with interactive line charts
 - Choose between hourly, daily, or monthly views
-- Calculate and display any percentile between 0-99
+- Calculate and display any percentile between 1-99
 - Aggregate data using Min, Max, or Mean methods
 - Display multiple percentiles simultaneously
 - All timestamps shown in UTC

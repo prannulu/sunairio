@@ -13,16 +13,16 @@ const Percentiles = ({ percentiles, onPercentilesChange }) => {
           type="number"
           value={inputValue}
           onChange={(e) => setInputValue(Number(e.target.value))}
-          placeholder="0-99"
-          min="0"
+          placeholder="1-99"
+          min="1"
           max="99"
           style={{ 
-            border: (inputValue < 0 || inputValue > 99) ? '2px solid red' : '' 
+            border: (inputValue < 1 || inputValue > 99) ? '2px solid red' : '' 
           }}
         />
         <button 
           onClick={() => {
-            if (inputValue < 0 || inputValue > 99) return;
+            if (inputValue < 1 || inputValue > 99) return;
             setInputValue('');
             const usedColors = new Set(percentiles.map(p => p.color));
             const availableColor = colors.find(color => !usedColors.has(color));
