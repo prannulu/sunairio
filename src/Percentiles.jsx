@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './styles.css';
 const Percentiles = ({ percentiles, onPercentilesChange }) => {
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState();
   const colors = ['red', 'blue', 'green',  'orange','turquoise', 'magenta', 'pink',  'lime', 'brown', 'gray'];
 
   return (
@@ -12,7 +12,7 @@ const Percentiles = ({ percentiles, onPercentilesChange }) => {
         <input 
           type="number"
           value={inputValue}
-          onChange={(e) => setInputValue(Number(e.target.value))}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="1-99"
           min="1"
           max="99"
@@ -23,12 +23,12 @@ const Percentiles = ({ percentiles, onPercentilesChange }) => {
         <button 
           onClick={() => {
             if (inputValue < 1 || inputValue > 99) return;
-            setInputValue('');
+            setInputValue();
             const usedColors = new Set(percentiles.map(p => p.color));
             const availableColor = colors.find(color => !usedColors.has(color));
             onPercentilesChange([...percentiles, { value: inputValue, color: availableColor }]);
           }}
-          disabled={percentiles.length > colors.length-1}
+          disabled={percentiles.length > colors.length-1 || !inputValue}
         >
           Add
         </button>
